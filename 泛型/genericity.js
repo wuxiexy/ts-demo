@@ -58,3 +58,4 @@ myGenericNumber2.add = function (x, y) {
     return x + '--' + y;
 };
 console.log(myGenericNumber2.add('ab', 'cd'));
+// test
