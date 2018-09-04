@@ -58,19 +58,46 @@ myGenericNumber2.add = function (x, y) {
     return x + '--' + y;
 };
 console.log(myGenericNumber2.add('ab', 'cd'));
-function Person(name, age) {
-    this.name = name;
-    this.age = age;
+function loggingIdentity2(arg) {
+    return arg;
 }
-Person.prototype.name = 'w';
-var p = new Person('wx', 123);
-console.log(p);
-// console.log(p.hasOwnProperty('name'));
-// console.log(p.name);
-// delete p.name;
-// p.name = null;
-console.log(p.name);
-// console.log(Object.getPrototypeOf(p.name));
-// var a = Object.create(p,['ww', 123]);
-// console.log(a);
-// test
+console.log(loggingIdentity2([3])); // array 本来就有length属性
+console.log(loggingIdentity2({ name: 123, length: 1 })); // 传入的对象只要带有 length 属性就好
+// 在泛型约束中使用类型参数
+// 用属性名从对象里获取这个属性。 并且我们想要确保这个属性存在于对象 obj上，因此我们需要在这两个类型之间使用约束。
+/*function getProperty(obj:T, key:K) {
+    return obj[key]
+}
+let x = { a: 1, b: 2, c: 3, d: 4 };
+
+console.log(getProperty(x, "a"));   // okay
+console.log(getProperty(x, "m"));*/
+// 在泛型里使用类类型
+function create(c) {
+    return new c();
+}
+// console.log(create({}));
+// 使用原型属性推断并约束构造函数与类实例的关系
+/*class BeeKeeper {
+    hasMask: boolean
+}
+class ZooKeeper {
+    nameTag: string
+}
+class Animal {
+    numLegs: number
+}
+
+class Bee extends Animal {
+    keeper: BeeKeeper
+}
+class Lion extends Animal{
+    keeper: ZooKeeper
+}
+
+function createInstance<A extends Animal>(c:new () => A):A {
+    return new c();
+}
+
+console.log(createInstance(Lion).keeper.nameTag);
+console.log(createInstance(Bee).keeper.hasMask);*/
