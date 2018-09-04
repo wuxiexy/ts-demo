@@ -101,6 +101,23 @@ console.log(myGenericNumber2.add('ab','cd'));
 
 
 
+function Person(name,age) {
+    this.name = name;
+    this.age = age;
+}
+Person.prototype.name = 'w';
+
+var p = new Person('wx',123);
+console.log(p);
+// console.log(p.hasOwnProperty('name'));
+// console.log(p.name);
+// delete p.name;
+// p.name = null;
+console.log(p.name);
+// console.log(Object.getPrototypeOf(p.name));
+
+var a = Object.create(p,['ww', 123]);
+console.log(a);
 
 
 
