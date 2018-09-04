@@ -116,9 +116,10 @@ console.log(p);
 console.log(p.name);
 // console.log(Object.getPrototypeOf(p.name));
 
-var a = Object.create(p,['ww', 123]);
-console.log(a);
+// var a = Object.create(p,['ww', 123]);
+// console.log(a);
 
+// test
 
 
 
