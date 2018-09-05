@@ -4,6 +4,12 @@
 // TypeScript的核心原则之一是对值所具有的结构进行类型检查
 // 在TypeScript里，接口的作用就是为这些类型命名和为你的代码或第三方代码定义契约。
 
+/*
+* ReadonlyStringArray
+* [propName: string]: any;
+* ReadonlyArray
+*
+* */
 
 
 
@@ -188,6 +194,145 @@ console.log(clock.getTime());
 
 // 类静态部分与实例部分的区别
 // 类是具有两个类型的：静态部分的类型和实例的类型
+/*interface ClockConstructor {
+    new (hour:number,minute:number): ClockInterface
+}
+
+interface ClockInterface {
+    tick();
+}
+
+function createClock(ctor: ClockConstructor, hour: number, minute: number):ClockInterface {
+    return new ctor(hour,minute);
+}
+
+class DigitalClock implements ClockInterface {
+    constructor(h:number,m:number){}
+    tick(){
+        console.log('beep beep');
+    }
+}
+class AnalogClock implements ClockInterface {
+    constructor(h:number,m:number){}
+    tick(){
+        console.log('tick tick');
+    }
+}
+
+let digital = createClock(DigitalClock, 12, 17);
+let analog = createClock(AnalogClock,7,32);
+
+console.log(digital);
+console.log(analog);*/
+
+
+
+
+
+
+
+// 继承接口
+// 和类一样，接口也可以相互继承。 这让我们能够从一个接口里复制成员到另一个接口里，可以更灵活地将接口分割到可重用的模块里。
+interface Shape {
+    color: string;
+}
+interface Square extends Shape {
+    sideLength: number;
+}
+let square = <Square>{};
+square.color = 'red';
+square.sideLength = 123;
+console.log(square);
+
+
+// 一个接口可以继承多个接口，创建出多个接口的合成接口。
+interface PenStroke {
+    width: string;
+}
+
+interface Square2 extends Shape,PenStroke {         // Square接口 继承 Shape,PenStroke 接口
+    sideLength: number;
+}
+let square2 = <Square2>{};
+square2.color = 'blue';
+square2.width = 'blue';
+square2.sideLength = 123;
+console.log(square2);
+
+
+
+
+
+
+
+
+// 混合类型
+console.log('混合类型');
+interface Counter {
+    (start:number):string;
+    interval: number;
+    reset(): void;
+}
+function getCounter():Counter {
+    let counter = <Counter>function (start: number) {};
+    counter.interval = 123;
+    counter.reset = function(){
+        console.log('reset');
+    };
+    return counter;
+}
+let c = getCounter();
+console.log(c);
+c(10);
+c.reset();
+c.interval = 5.0;
+console.log(c);
+
+
+
+
+
+
+// 接口继承类
+class Control {
+    private state: any;
+}
+interface SelectableControl extends Control {
+    select():void;
+}
+class Button extends Control implements SelectableControl {
+    select(){}
+}
+class TextBox extends Control {
+    select(){}
+}
+
+// Button和TextBox类是SelectableControl的子类（因为它们都继承自Control并有select方法）
+/*class Img implements SelectableControl {
+    state = 123;
+    select(){}
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
