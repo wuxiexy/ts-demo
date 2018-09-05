@@ -1,14 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 // document 【https://www.tslang.cn/docs/handbook/interfaces.html】
 // TypeScript的核心原则之一是对值所具有的结构进行类型检查
 // 在TypeScript里，接口的作用就是为这些类型命名和为你的代码或第三方代码定义契约。
@@ -121,25 +111,3 @@ c(10);
 c.reset();
 c.interval = 5.0;
 console.log(c);
-// 接口继承类
-var Control = /** @class */ (function () {
-    function Control() {
-    }
-    return Control;
-}());
-var Button = /** @class */ (function (_super) {
-    __extends(Button, _super);
-    function Button() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Button.prototype.select = function () { };
-    return Button;
-}(Control));
-var TextBox = /** @class */ (function (_super) {
-    __extends(TextBox, _super);
-    function TextBox() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    TextBox.prototype.select = function () { };
-    return TextBox;
-}(Control));

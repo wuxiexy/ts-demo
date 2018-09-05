@@ -112,5 +112,99 @@ let animal3 = new Animal3('wx');
 
 
 
+// 接口继承类
+class Control {
+    private state: any;
+}
+interface SelectableControl extends Control {
+    select():void;
+}
+class Button extends Control implements SelectableControl {
+    select(){}
+}
+class TextBox extends Control {
+    select(){}
+}
+
+// Button和TextBox类是SelectableControl的子类（因为它们都继承自Control并有select方法）
+/*class Img implements SelectableControl {
+    state = 123;
+    select(){}
+}*/
+
+
+class Animal4 {
+    private name:string;
+    constructor(name:string){
+        this.name = name;
+    }
+}
+class Rhino extends Animal4 {
+    constructor(){
+        super("Rhino");
+        // this.name = 123;        // error，基类私有的
+    }
+}
+
+class Employee {
+    private name:string;
+    constructor(name:string){
+        this.name = name;
+    }
+}
+let animal = new Animal4('Goat');
+let rhino = new Rhino();
+let employee = new Employee('Bob');
+
+animal = rhino;
+// animal = employee;      // error
+
+
+
+
+
+// 理解 protected
+// protected修饰符与 private修饰符的行为很相似，但有一点不同， protected成员在派生类(子类)中仍然可以访问
+class Person {
+    protected name:string;
+    constructor(name:string){
+        this.name = name;
+    }
+}
+class Employee2 extends Person {
+    private department:string;
+    constructor(name:string, department:string){
+        super(name);        // 它会执行基类的构造函数，初始化 name
+        this.department = department;
+    }
+    public getElevatorPitch(){
+        // 子类可以访问基类的 protected(受保护) 的属性
+        return `Hello, my name is ${this.name} and I work in ${this.department}.`;
+    }
+}
+let howard = new Employee2("Howard", "Sales");
+console.log(howard.getElevatorPitch());
+// console.log(howard.name);           // error
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

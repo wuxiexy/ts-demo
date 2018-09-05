@@ -106,3 +106,79 @@ var Animal3 = /** @class */ (function () {
 }());
 var animal3 = new Animal3('wx');
 // console.log(animal3.name);      // error
+// 接口继承类
+var Control = /** @class */ (function () {
+    function Control() {
+    }
+    return Control;
+}());
+var Button = /** @class */ (function (_super) {
+    __extends(Button, _super);
+    function Button() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Button.prototype.select = function () { };
+    return Button;
+}(Control));
+var TextBox = /** @class */ (function (_super) {
+    __extends(TextBox, _super);
+    function TextBox() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    TextBox.prototype.select = function () { };
+    return TextBox;
+}(Control));
+// Button和TextBox类是SelectableControl的子类（因为它们都继承自Control并有select方法）
+/*class Img implements SelectableControl {
+    state = 123;
+    select(){}
+}*/
+var Animal4 = /** @class */ (function () {
+    function Animal4(name) {
+        this.name = name;
+    }
+    return Animal4;
+}());
+var Rhino = /** @class */ (function (_super) {
+    __extends(Rhino, _super);
+    function Rhino() {
+        return _super.call(this, "Rhino") || this;
+        // this.name = 123;        // error，基类私有的
+    }
+    return Rhino;
+}(Animal4));
+var Employee = /** @class */ (function () {
+    function Employee(name) {
+        this.name = name;
+    }
+    return Employee;
+}());
+var animal = new Animal4('Goat');
+var rhino = new Rhino();
+var employee = new Employee('Bob');
+animal = rhino;
+// animal = employee;      // error
+// 理解 protected
+// protected修饰符与 private修饰符的行为很相似，但有一点不同， protected成员在派生类(子类)中仍然可以访问
+var Person = /** @class */ (function () {
+    function Person(name) {
+        this.name = name;
+    }
+    return Person;
+}());
+var Employee2 = /** @class */ (function (_super) {
+    __extends(Employee2, _super);
+    function Employee2(name, department) {
+        var _this = _super.call(this, name) || this;
+        _this.department = department;
+        return _this;
+    }
+    Employee2.prototype.getElevatorPitch = function () {
+        // 子类可以访问基类的 protected(受保护) 的属性
+        return "Hello, my name is " + this.name + " and I work in " + this.department + ".";
+    };
+    return Employee2;
+}(Person));
+var howard = new Employee2("Howard", "Sales");
+console.log(howard.getElevatorPitch());
+// console.log(howard.name);           // error

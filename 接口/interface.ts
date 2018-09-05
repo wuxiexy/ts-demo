@@ -293,51 +293,6 @@ console.log(c);
 
 
 
-// 接口继承类
-class Control {
-    private state: any;
-}
-interface SelectableControl extends Control {
-    select():void;
-}
-class Button extends Control implements SelectableControl {
-    select(){}
-}
-class TextBox extends Control {
-    select(){}
-}
-
-// Button和TextBox类是SelectableControl的子类（因为它们都继承自Control并有select方法）
-/*class Img implements SelectableControl {
-    state = 123;
-    select(){}
-}*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
