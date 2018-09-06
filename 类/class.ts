@@ -1,3 +1,4 @@
+"use strict";
 /*
 * document【https://www.tslang.cn/docs/handbook/classes.html】
 *
@@ -165,6 +166,7 @@ animal = rhino;
 
 // 理解 protected
 // protected修饰符与 private修饰符的行为很相似，但有一点不同， protected成员在派生类(子类)中仍然可以访问
+// 构造函数也可以被标记成 protected。 这意味着这个类不能在包含它的类外被实例化，但是能被继承。
 class Person {
     protected name:string;
     constructor(name:string){
@@ -179,6 +181,7 @@ class Employee2 extends Person {
     }
     public getElevatorPitch(){
         // 子类可以访问基类的 protected(受保护) 的属性
+        // 所以这里访问 this.name 正常
         return `Hello, my name is ${this.name} and I work in ${this.department}.`;
     }
 }
@@ -191,6 +194,56 @@ console.log(howard.getElevatorPitch());
 
 
 
+// readonly修饰符
+// 你可以使用 readonly关键字将属性设置为只读的。 只读属性必须在声明时或构造函数里被初始化。
+class Octopus {
+    readonly name: string;
+    readonly numberLegs:number = 8;
+    constructor(name:string){
+        this.name = name;
+    }
+}
+let dad = new Octopus("Man with the 8 strong legs");
+// dad.name = "Man with the 3-piece suit";         // 错误! name 是只读的.
+console.log(dad.name);
+console.log(dad.numberLegs);
+
+
+
+
+
+// 参数属性
+// 参数属性可以方便地让我们在一个地方定义并初始化一个成员。
+class Animal5 {
+    constructor(private name:string){}
+    move(distance:number){
+        console.log(`${this.name} moved ${distance}m.`);
+    }
+}
+let a5 = new Animal5('w');
+console.log(a5);
+a5.move(123);
+
+
+
+
+// 变量的数据属性和访问器属性
+// 存取器
+// TypeScript支持通过getters/setters来截取对对象成员的访问。 它能帮助你有效的控制对对象成员的访问。
+class Employee3 {
+    private _fullName: string;
+    get fullName():string {
+        return this._fullName;
+    }
+    // 只带有 get不带有 set的存取器自动被推断为 readonly。
+    // 这在从代码生成 .d.ts文件时是有帮助的，因为利用这个属性的用户会看到不允许够改变它的值。
+    set fullName(name:string) {
+        this._fullName = name;
+    }
+}
+let e3 = new Employee3();
+e3.fullName = '哈哈哈';
+console.log(e3.fullName);
 
 
 
@@ -198,12 +251,86 @@ console.log(howard.getElevatorPitch());
 
 
 
+// 静态属性
+// 可以创建类的静态成员，这些属性存在于类本身上面而不是类的实例上
+// 使用 Grid.来访问静态属性
+class Grid {
+    static origin = {x:0,y:0};
+    constructor(public scale:number){}
+    calculateDistance(point:{x:number,y:number}){
+        let xDist = (point.x - Grid.origin.x);          // 使用类名来访问静态属性
+        let yDist = (point.y - Grid.origin.y);
+        return Math.sqrt(xDist*xDist + yDist*yDist) / this.scale;
+    }
+}
+let grid1 = new Grid(1.0);
+let grid2 = new Grid(5.0);
+console.log(grid1.calculateDistance({x:10,y:10}));
+console.log(grid2.calculateDistance({x:20,y:20}));
 
 
 
 
 
 
+// 抽象类
+// 抽象类做为其它派生类的基类使用。 它们一般不会直接被实例化。 不同于接口，抽象类可以包含成员的实现细节。
+// abstract关键字是用于定义抽象类和在抽象类内部定义抽象方法。
+abstract class Animal6 {
+    abstract makeSound:void;
+    move():void {
+        console.log('roaming the each...');
+    }
+}
+// let a6 = new Animal6();     // 不能被直接实例化
+
+
+// 抽象类中的抽象方法不包含具体实现并且必须在派生类中实现。 抽象方法的语法与接口方法相似。
+// 两者都是定义方法签名但不包含方法体。 然而，抽象方法必须包含 abstract 关键字并且可以包含访问修饰符。
+abstract class Department {
+    constructor(public name:string){}
+    printName():void {
+        console.log('Department name: ' + this.name);
+    }
+    abstract printMeeting():void;       // 带有abstract的方法 必须在派生类(子类)中实现
+}
+class AccountingDepartment extends Department {
+    constructor(public name:string){
+        super(name);
+    }
+    printMeeting():void {
+        console.log('The Accounting Department meets each Monday at 10am.');
+    }
+    generateReports():void {    // 这个要删掉
+        console.log('Generating accounting reports...');
+    }
+}
+let department:Department;
+department = new AccountingDepartment('The Accounting Department meets each Monday at 10am.');
+department.printName();
+department.printMeeting();
+// department.generateReports();   // 错误: 方法在声明的抽象类中不存在
+
+
+
+
+
+// 当你在TypeScript里声明了一个类的时候，实际上同时声明了很多东西。 首先就是类的 实例的类型。
+
+
+
+
+// 把类当做接口使用
+// 如上一节里所讲的，类定义会创建两个东西：类的实例类型和一个构造函数。 因为类可以创建出类型，
+class Point {
+    x:number;
+    y:number;
+}
+interface Point2 extends Point{
+    z:number;
+}
+let point2:Point2 = {x:1,y:2,z:3};
+console.log(point2);
 
 
 
