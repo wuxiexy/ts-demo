@@ -58,8 +58,18 @@ var deck = {
 };
 var cp = deck.createCard()();
 console.log(cp);
-/*
-let deck2:Deck = {
-    suits: ['a', 'b', 'c', 'd']
-}
-*/
+var deck2 = {
+    suits: ['a', 'b', 'c', 'd'],
+    cards: Array(52),
+    createCardPicker: function () {
+        var _this = this;
+        return function () {
+            var c = Math.floor(Math.random() * 52);
+            var s = Math.floor(c / 13);
+            return {
+                suit: _this.suits[s],
+                card: c % 12
+            };
+        };
+    }
+};

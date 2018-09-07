@@ -93,18 +93,27 @@ console.log(cp);
 
 interface Card {
     suit: string;
-    card: string;
+    card: number;
 }
 interface Deck {
     suits: string[];
     cards: number[];
-    createCardPicker(this:Deck): ()=>Card;
+    createCardPicker(this:Deck): ()=>Card;      // 定义了返回类型
 }
-/*
 let deck2:Deck = {
     suits: ['a', 'b', 'c', 'd']
-}
-*/
+    , cards: Array(52)
+    , createCardPicker: function (this:Deck) {          // this是Deck类型的
+        return ()=>{
+            let c = Math.floor(Math.random()*52);
+            let s = Math.floor(c/13);
+            return {
+                suit: this.suits[s],
+                card: c%12
+            }
+        }
+    }
+};
 
 
 
